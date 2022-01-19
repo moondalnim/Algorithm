@@ -1,8 +1,8 @@
 import Foundation
 
 func solution(_ sizes: [[Int]]) -> Int {
-    let widths = sizes.compactMap { $0.max() }.sorted()
-    let heights = sizes.compactMap { $0.min() }.sorted()
+    let width = sizes.compactMap { $0.max() }.max() ?? 0
+    let height = sizes.compactMap { $0.min() }.max() ?? 0
 
-    return widths[widths.endIndex - 1] * heights[heights.endIndex - 1]
+    return width * height
 }
