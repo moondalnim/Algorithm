@@ -1,15 +1,15 @@
-func squareMatrixMultiply(_ array1: [[Int]], _ array2: [[Int]]) -> [[Int]] {
-    let n = array1.count
-    var result = Array(repeating: Array(repeating: 0, count: n), count: n)
+func squareMatrixMultiply(_ matrixA: [[Int]], _ matrixB: [[Int]]) -> [[Int]] {
+    let n = matrixA.count
+    var matrixC = Array(repeating: Array(repeating: 0, count: n), count: n)
 
     for i in 0..<n {
         for j in 0..<n {
-            result[i][j] = 0
+            matrixC[i][j] = 0
             for k in 0..<n {
-                result[i][j] += array1[i][k] * array2[k][j]
+                matrixC[i][j] += matrixA[i][k] * matrixB[k][j]
             }
         }
     }
 
-    return result
+    return matrixC
 }
