@@ -5,14 +5,14 @@ func squareMatrixMultiplyRecursive(_ matrixA: [[Int]], _ matrixB: [[Int]]) -> [[
     if n == 1 {
         matrixC[0][0] = matrixA[0][0] * matrixB[0][0]
     } else {
-        let matrixA00 = matrixA[0..<n / 2].map { $0[0..<n / 2].compactMap { $0 } }
-        let matrixA01 = matrixA[0..<n / 2].map { $0[n / 2..<n].compactMap { $0 } }
-        let matrixA10 = matrixA[n / 2..<n].map { $0[0..<n / 2].compactMap { $0 } }
-        let matrixA11 = matrixA[n / 2..<n].map { $0[n / 2..<n].compactMap { $0 } }
-        let matrixB00 = matrixB[0..<n / 2].map { $0[0..<n / 2].compactMap { $0 } }
-        let matrixB01 = matrixB[0..<n / 2].map { $0[n / 2..<n].compactMap { $0 } }
-        let matrixB10 = matrixB[n / 2..<n].map { $0[0..<n / 2].compactMap { $0 } }
-        let matrixB11 = matrixB[n / 2..<n].map { $0[n / 2..<n].compactMap { $0 } }
+        let matrixA00 = matrixA[0..<n / 2].map { $0[0..<n / 2].map { $0 } }
+        let matrixA01 = matrixA[0..<n / 2].map { $0[n / 2..<n].map { $0 } }
+        let matrixA10 = matrixA[n / 2..<n].map { $0[0..<n / 2].map { $0 } }
+        let matrixA11 = matrixA[n / 2..<n].map { $0[n / 2..<n].map { $0 } }
+        let matrixB00 = matrixB[0..<n / 2].map { $0[0..<n / 2].map { $0 } }
+        let matrixB01 = matrixB[0..<n / 2].map { $0[n / 2..<n].map { $0 } }
+        let matrixB10 = matrixB[n / 2..<n].map { $0[0..<n / 2].map { $0 } }
+        let matrixB11 = matrixB[n / 2..<n].map { $0[n / 2..<n].map { $0 } }
 
         let matrixC00 = squareMatrixMultiplyRecursive(matrixA00, matrixB00)
                       + squareMatrixMultiplyRecursive(matrixA01, matrixB10)
