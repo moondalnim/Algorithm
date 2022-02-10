@@ -5,14 +5,27 @@ func strassen(_ matrixA: [[Int]], _ matrixB: [[Int]]) -> [[Int]] {
     if n == 1 {
         matrixC[0][0] = matrixA[0][0] * matrixB[0][0]
     } else {
-        let matrixA00 = matrixA[0..<n / 2].map { $0[0..<n / 2].map { $0 } }
-        let matrixA01 = matrixA[0..<n / 2].map { $0[n / 2..<n].map { $0 } }
-        let matrixA10 = matrixA[n / 2..<n].map { $0[0..<n / 2].map { $0 } }
-        let matrixA11 = matrixA[n / 2..<n].map { $0[n / 2..<n].map { $0 } }
-        let matrixB00 = matrixB[0..<n / 2].map { $0[0..<n / 2].map { $0 } }
-        let matrixB01 = matrixB[0..<n / 2].map { $0[n / 2..<n].map { $0 } }
-        let matrixB10 = matrixB[n / 2..<n].map { $0[0..<n / 2].map { $0 } }
-        let matrixB11 = matrixB[n / 2..<n].map { $0[n / 2..<n].map { $0 } }
+        var matrixA00 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixA01 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixA10 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixA11 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixB00 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixB01 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixB10 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        var matrixB11 = Array(repeating: Array(repeating: 0, count: n / 2), count: n / 2)
+        
+        for row in 0..<n / 2 {
+            for column in 0..<n / 2 {
+                matrixA00[row][column] = matrixA[row][column]
+                matrixA01[row][column] = matrixA[row][column + n / 2]
+                matrixA10[row][column] = matrixA[row + n / 2][column]
+                matrixA11[row][column] = matrixA[row + n / 2][column + n / 2]
+                matrixB00[row][column] = matrixB[row][column]
+                matrixB01[row][column] = matrixB[row][column + n / 2]
+                matrixB10[row][column] = matrixB[row + n / 2][column]
+                matrixB11[row][column] = matrixB[row + n / 2][column + n / 2]
+            }
+        }
 
         let matrixS0 = matrixB01 - matrixB11
         let matrixS1 = matrixA00 + matrixA01
