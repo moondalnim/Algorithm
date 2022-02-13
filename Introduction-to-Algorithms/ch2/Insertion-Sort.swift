@@ -1,4 +1,4 @@
-func insertionSort(_ array: inout [Int]) -> [Int] {
+func insertionSort(_ array: inout [Int]) {
     for keyIndex in 1..<array.count {
         let key = array[keyIndex]
         var index = keyIndex - 1
@@ -9,6 +9,4 @@ func insertionSort(_ array: inout [Int]) -> [Int] {
         }
         array[index + 1] = key
     }
-
-    return array
 }
