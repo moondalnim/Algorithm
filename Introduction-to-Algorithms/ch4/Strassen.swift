@@ -65,29 +65,11 @@ func strassen(_ matrixA: [[Int]], _ matrixB: [[Int]]) -> [[Int]] {
 }
 
 extension Array where Element == [Int] {
-    static func +(lhs: [[Int]], rhs: [[Int]]) ->[[Int]] {
-        let n = lhs.count
-        var result = Array(repeating: .init(repeating: 0, count: n), count: n)
-
-        for i in 0..<n {
-            for j in 0..<n {
-                result[i][j] = lhs[i][j] + rhs[i][j]
-            }
-        }
-
-        return result
+    static func +(lhs: [[Int]], rhs: [[Int]]) -> [[Int]] {
+        zip(lhs, rhs).map { zip($0, $1).map(+) }
     }
 
-    static func -(lhs: [[Int]], rhs: [[Int]]) ->[[Int]] {
-        let n = lhs.count
-        var result = Array(repeating: .init(repeating: 0, count: n), count: n)
-
-        for i in 0..<n {
-            for j in 0..<n {
-                result[i][j] = lhs[i][j] - rhs[i][j]
-            }
-        }
-
-        return result
+    static func -(lhs: [[Int]], rhs: [[Int]]) -> [[Int]] {
+        zip(lhs, rhs).map { zip($0, $1).map(-) }
     }
 }
