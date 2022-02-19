@@ -3,7 +3,11 @@ struct K {
 }
 
 struct Table {
-    private var bucket: [Node<Int>?] = Array(repeating: nil, count: K.maxTableSize)
+    private var bucket: [Node<Int>?]
+
+    init() {
+        self.bucket = Array(repeating: nil, count: K.maxTableSize)
+    }
 
     subscript(key: Int) -> Node<Int>? {
         get {
