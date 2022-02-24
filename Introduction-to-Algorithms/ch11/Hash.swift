@@ -1,14 +1,17 @@
 struct K {
-    static let hashTableSizePreferredPrimeNumber = 701
-    static let hashTableSizePreferredPowerOfTwo = 1024
+    static let anyPrimeNumber = 701
+    static let anyValueForPowerOfTwo = 1024
 }
 
-func hashDivisionMethod(_ key: Int) -> Int {
-    return key % K.hashTableSizePreferredPrimeNumber
+func hashUsingDivision(_ key: Int) -> Int {
+    let hashTableSize = K.anyPrimeNumber
+
+    return key % hashTableSize
 }
 
-func hashMultiplicationMethod(_ key: Int) -> Int {
+func hashUsingMultiplication(_ key: Int) -> Int {
     let knuth = 0.6180339887
+    let hashTableSize = K.anyValueForPowerOfTwo
 
-    return Int(Double(K.hashTableSizePreferredPowerOfTwo) * (Double(key) * knuth).truncatingRemainder(dividingBy: 1))
+    return Int(Double(hashTableSize) * (Double(key) * knuth.truncatingRemainder(dividingBy: 1)))
 }
