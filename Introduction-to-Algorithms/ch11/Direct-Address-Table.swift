@@ -3,13 +3,13 @@ struct K {
 }
 
 struct Table {
-    private var bucket: [Node<Int>?]
+    private var bucket: [Node?]
 
     init() {
         self.bucket = Array(repeating: nil, count: K.maxTableSize)
     }
 
-    subscript(key: Int) -> Node<Int>? {
+    subscript(key: Int) -> Node? {
         get {
             self.bucket[key]
         }
@@ -19,24 +19,24 @@ struct Table {
     }
 }
 
-class Node<Key: Hashable> {
-    var key: Key
+class Node {
+    var key: Int
     var value: Any?
 
-    init(_ key: Key, _ value: Any? = nil) {
+    init(_ key: Int, _ value: Any? = nil) {
         self.key = key
         self.value = value
     }
 }
 
-func directAddressSearch(_ table: Table, _ key: Int) -> Node<Int>? {
+func directAddressSearch(_ table: Table, _ key: Int) -> Node? {
     return table[key]
 }
 
-func directAddressInsert(_ table: inout Table, _ node: Node<Int>) {
+func directAddressInsert(_ table: inout Table, _ node: Node) {
     table[node.key] = node
 }
 
-func directAddressDelete(_ table: inout Table, _ node: Node<Int>) {
+func directAddressDelete(_ table: inout Table, _ node: Node) {
     table[node.key] = nil
 }
