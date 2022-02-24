@@ -2,20 +2,20 @@ struct K {
     static let hashTableSize = 10
 }
 
-class Node<Key: Hashable> {
-    var key: Key
-    var prev: Node<Key>?
-    var next: Node<Key>?
+class Node {
+    var key: Int
+    var prev: Node?
+    var next: Node?
 
-    init(_ key: Key) {
+    init(_ key: Int) {
         self.key = key
     }
 }
 
-struct LinkedList<Key: Hashable> {
-    var head: Node<Key>?
+struct LinkedList {
+    var head: Node?
 
-    mutating func insert(_ node: Node<Key>) {
+    mutating func insert(_ node: Node) {
         node.next = self.head
 
         if self.head != nil {
@@ -26,7 +26,7 @@ struct LinkedList<Key: Hashable> {
         node.prev = nil
     }
 
-    func search(_ key: Key) -> Node<Key>? {
+    func search(_ key: Int) -> Node? {
         var node = self.head
         while node != nil, node?.key != key {
             node = node?.next
@@ -35,7 +35,7 @@ struct LinkedList<Key: Hashable> {
         return node
     }
 
-    mutating func delete(_ node: Node<Key>) {
+    mutating func delete(_ node: Node) {
         if node.prev != nil {
             node.prev?.next = node.next
         } else {
@@ -56,56 +56,58 @@ final class Reference<Value> {
     }
 }
 
-struct HashTable<Key: Hashable> {
-    private var bucket: [Reference<LinkedList<Key>>?]
+struct HashTable {
+    private var bucket: [Reference<LinkedList>?]
 
     init() {
         self.bucket = Array(repeating: nil, count: K.hashTableSize)
     }
 
-    mutating func insert(_ node: Node<Key>) {
-        if let reference = self.bucket[hash(node.key)] {
+    mutating func insert(_ node: Node) {
+        if let reference = self.bucket[hashUsingMultiplication(node.key)] {
             reference.value.insert(node)
         } else {
-            let reference: Reference<LinkedList<Key>> = Reference(LinkedList())
-            self.bucket[hash(node.key)] = reference
+            let reference: Reference<LinkedList> = Reference(LinkedList())
+            self.bucket[hashUsingMultiplication(node.key)] = reference
 
             reference.value.insert(node)
         }
     }
 
-    func search(_ key: Key) -> Node<Key>? {
-        if let reference = self.bucket[hash(key)] {
+    func search(_ key: Int) -> Node? {
+        if let reference = self.bucket[hashUsingMultiplication(key)] {
             return reference.value.search(key)
         } else {
             return nil
         }
     }
 
-    mutating func delete(_ node: Node<Key>) {
-        if let reference = self.bucket[hash(node.key)] {
+    mutating func delete(_ node: Node) {
+        if let reference = self.bucket[hashUsingMultiplication(node.key)] {
             reference.value.delete(node)
         } else {
-            let reference: Reference<LinkedList<Key>> = Reference(LinkedList())
-            self.bucket[hash(node.key)] = reference
+            let reference: Reference<LinkedList> = Reference(LinkedList())
+            self.bucket[hashUsingMultiplication(node.key)] = reference
 
             reference.value.delete(node)
         }
     }
-
-    private func hash<Key: Hashable>(_ key: Key) -> Int {
-        return abs(key.hashValue % K.hashTableSize)
-    }
 }
 
-func chainedHashInsert<Key: Hashable>(_ hashTable: inout HashTable<Key>, _ node: Node<Key>) {
+func hashUsingMultiplication(_ key: Int) -> Int {
+    let knuth = 0.6180339887
+
+    return Int(Double(K.hashTableSize) * (Double(key) * knuth.truncatingRemainder(dividingBy: 1)))
+}
+
+func chainedHashInsert(_ hashTable: inout HashTable, _ node: Node) {
     hashTable.insert(node)
 }
 
-func chainedHashSearch<Key: Hashable>(_ hashTable: HashTable<Key>, _ key: Key) -> Node<Key>? {
+func chainedHashSearch(_ hashTable: HashTable, _ key: Int) -> Node? {
     hashTable.search(key)
 }
 
-func chainedHashDelete<Key: Hashable>(_ hashTable: inout HashTable<Key>, _ node: Node<Key>) {
+func chainedHashDelete(_ hashTable: inout HashTable, _ node: Node) {
     hashTable.delete(node)
 }
