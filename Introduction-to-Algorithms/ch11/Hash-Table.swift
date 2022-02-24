@@ -2,14 +2,14 @@ struct K {
     static let hashTableSize = 10
 }
 
-struct HashTable<Key: Hashable> {
-    private var bucket: [Node<Key>?]
+struct HashTable {
+    private var bucket: [Node?]
 
     init() {
         self.bucket = Array(repeating: nil, count: K.hashTableSize)
     }
 
-    subscript(hashValue: Int) -> Node<Key>? {
+    subscript(hashValue: Int) -> Node? {
         get {
             self.bucket[hashValue]
         }
@@ -19,28 +19,28 @@ struct HashTable<Key: Hashable> {
     }
 }
 
-class Node<Key: Hashable> {
-    var key: Key
+class Node {
+    var key: Int
     var value: Any?
 
-    init(_ key: Key, _ value: Any? = nil) {
+    init(_ key: Int, _ value: Any? = nil) {
         self.key = key
         self.value = value
     }
 }
 
-func hash<Key: Hashable>(_ key: Key) -> Int {
-    return abs(key.hashValue % K.hashTableSize)
+func hashUsingDivision(_ key: Int) -> Int {
+    return key % K.hashTableSize
 }
 
-func hashSearch<Key: Hashable>(_ hashTable: HashTable<Key>, _ key: Key) -> Node<Key>? {
-    hashTable[hash(key)]
+func hashSearch(_ hashTable: HashTable, _ key: Int) -> Node? {
+    hashTable[hashUsingDivision(key)]
 }
 
-func hashInsert<Key: Hashable>(_ hashTable: inout HashTable<Key>, _ node: Node<Key>) {
-    hashTable[hash(node.key)] = node
+func hashInsert(_ hashTable: inout HashTable, _ node: Node) {
+    hashTable[hashUsingDivision(node.key)] = node
 }
 
-func hashDelete<Key: Hashable>(_ hashTable: inout HashTable<Key>, _ node: Node<Key>) {
-    hashTable[hash(node.key)] = nil
+func hashDelete(_ hashTable: inout HashTable, _ node: Node) {
+    hashTable[hashUsingDivision(node.key)] = nil
 }
