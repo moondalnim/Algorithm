@@ -1,4 +1,4 @@
-struct BinaryTree<Key: Comparable> {
+struct BinarySearchTree<Key: Comparable> {
     var root: Node<Key>?
 }
 
