@@ -1,7 +1,3 @@
-struct BinarySearchTree<Key: Comparable> {
-    var root: Node<Key>?
-}
-
 class Node<Key: Comparable> {
     var key: Key
     var parent: Node?
